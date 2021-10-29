@@ -1,4 +1,4 @@
-export default (state = false, action) => {
+const ProgressReducers = (state = false, action) => {
   switch (action.type) {
   case 'IN_PROGRESS' :
     return { isInprogress: true };
@@ -8,3 +8,4 @@ export default (state = false, action) => {
     return { isInprogress: false };
   }
 };
+export default ProgressReducers;

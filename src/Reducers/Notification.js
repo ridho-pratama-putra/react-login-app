@@ -1,4 +1,4 @@
-export default (state = [], action) => {
+const NotificationReducers = (state = [], action) => {
   switch (action.type) {
   case 'NOTIFICATION_SUCCESS' :
     return { isOpen: true, message: action.message, type: action.notificationType };
@@ -12,3 +12,4 @@ export default (state = [], action) => {
     return state;
   }
 };
+ export default NotificationReducers;

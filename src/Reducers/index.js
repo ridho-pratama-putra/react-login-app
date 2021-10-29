@@ -1,10 +1,8 @@
 import { combineReducers } from 'redux';
-import Absent from './Absent';
 import Notification from './Notification';
 import Progress from './Progress';
-import Reference from './Reference';
-import Products from './Products';
+import Login from './Login';
 
 export default combineReducers({
-  Absent, Notification, Progress, Reference, Products
+  Notification, Progress, Login
 });
