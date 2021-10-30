@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { submitLogin, doLogout } from "../Action/Login";
-import {useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -16,8 +16,6 @@ const Login = () => {
            ...formValue,
            [event.target.name]: event.target.value
        });
-
-       console.log(formValue)
     };
 
    const handleSubmitLogin = (event) => {

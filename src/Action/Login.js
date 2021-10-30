@@ -30,7 +30,7 @@ export const submitLogin = (formData) => {
 export const doLogout= (token) => {
     return async (dispatch) => {
         try {
-            await api.doLogout({ data: {token: JSON.parse(token.accessToken) }}).then(({data}) => {
+            await api.doLogout({ headers: {Authorization: `Bearer ${JSON.parse(token.accessToken)}` }}).then(({data}) => {
                 if (data.status.code === '00') {
                     const loggedInAction = { type: 'LOGGED_OUT', data };
                     dispatch(loggedInAction);
