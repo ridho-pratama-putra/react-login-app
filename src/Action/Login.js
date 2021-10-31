@@ -2,6 +2,8 @@ import * as api from '../User/Api';
 
 export const submitLogin = (formData) => {
     return async (dispatch) => {
+        const progressAction = { type: 'IN_PROGRESS' };
+        dispatch(progressAction);
         try {
             await api.submitLogin(formData).then(({data}) => {
                 if (data.status.code === '00') {
