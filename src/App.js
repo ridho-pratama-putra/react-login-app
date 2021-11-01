@@ -1,7 +1,7 @@
 import React from 'react';
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
-import Login from "./User/Login";
-import Register from "./User/Register";
+import Login from "./Page/Login";
+import Register from "./Page/Register";
 import Home from "./UniversalComponents/Home";
 import {
     AppBar,
@@ -19,8 +19,28 @@ import HomeIcon from '@mui/icons-material/Home';
 import MailIcon from '@mui/icons-material/Mail';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import Drawer from "@mui/material/Drawer";
+import { makeStyles } from '@mui/styles'
 
 function App() {
+    const useStyles = makeStyles({
+        root: {
+            flexGrow: 1
+        },
+        title: {
+            flexGrow: 1
+        },
+        list: {
+            width: 250
+        },
+        fullList: {
+            width: 'auto'
+        },
+        customAppBar: {
+            background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+            border: 0
+        },
+    });
+    const classes = useStyles();
     const [state, setState] = React.useState({
         top: false,
         left: false,
@@ -73,13 +93,13 @@ function App() {
 
     return (
         <BrowserRouter>
-            <AppBar position="static" >
+            <AppBar position="static" className={classes.customAppBar}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(anchor, true)}>
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" >
-                        DOMUNDO
+                        DOmundo
                     </Typography>
                 </Toolbar>
             </AppBar>

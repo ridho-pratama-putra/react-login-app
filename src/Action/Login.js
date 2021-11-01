@@ -1,4 +1,4 @@
-import * as api from '../User/Api';
+import * as api from '../Page/Api';
 
 export const submitLogin = (formData) => {
     return async (dispatch) => {
@@ -31,6 +31,8 @@ export const submitLogin = (formData) => {
 
 export const doLogout= (token) => {
     return async (dispatch) => {
+        const progressAction = { type: 'IN_PROGRESS' };
+        dispatch(progressAction);
         try {
             await api.doLogout({ headers: {Authorization: `Bearer ${JSON.parse(token.accessToken)}` }}).then(({data}) => {
                 if (data.status.code === '00') {

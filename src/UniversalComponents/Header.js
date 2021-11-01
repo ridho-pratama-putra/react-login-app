@@ -1,18 +1,9 @@
-import PropTypes from 'prop-types';
-const Header = ({ title }) => {
+const Header = () => {
   return (
     <header>
-      <h1>domundotech {title}</h1>
+      Ásbyrgi
     </header>
   );
-};
-
-Header.propTypes = {
-  title: PropTypes.string
-};
-
-Header.defaultProps = {
-  title: 'web services'
 };
 
 export default Header;
