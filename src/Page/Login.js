@@ -8,7 +8,7 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-import {makeStyles} from '@mui/styles'
+import {makeStyles} from '@mui/styles';
 
 const Login = () => {
     const useStyles = makeStyles({
@@ -60,10 +60,42 @@ const Login = () => {
 
     const handleLogout = (event) => {
         event.preventDefault();
-        let accessToken = localStorage.getItem('accessToken');
-        const doLogin = doLogout({accessToken});
+        let refreshToken = localStorage.getItem('refreshToken');
+        console.log('refreshToken :: ', refreshToken)
+        const doLogin = doLogout(refreshToken);
         dispatch(doLogin)
     };
+
+    const setToken = function(e) {
+        if (
+            e.origin === origin &&
+            e.data &&
+            e.data.command === 'token-ready' &&
+            e.data.info &&
+            e.data.info.token
+        ) {
+            localStorage.setItem('jwt', e.data.info.token);
+
+            e.source.postMessage(
+                {
+                    command: 'info',
+                    info: {
+                        complete: true,
+                    },
+                },
+                e.origin
+            );
+        }
+    };
+
+    window.addEventListener('message', setToken, false);
+
+    const requestSignWithGoogle = () =>{
+        const googleLoginUrl = 'http://localhost:4000/auth/google';
+        const newWindow = window.open(googleLoginUrl, "_self", "width=500,height=500")
+    };
+
+
 
     return (
         <div>
@@ -71,9 +103,7 @@ const Login = () => {
             <Box  display='flex' justifyContent="space-around" className={classes.root}>
                 <Card className={classes.card} variant="outlined" >
                     <div style={{marginTop: '20px'}}>
-                        Login, or you can <Link href='/register'>Register</Link> so you can track your request and get
-                        early
-                        offer from us
+                        Login, or you can <Link href='/register'>Register</Link> so you can track your request and get early offer from us
                     </div>
                     <TextField label="Email" name={"email"} variant="outlined" onChange={onChangeFormValue}
                                value={formValue.email} style={{marginTop: '30px'}}/>
@@ -81,6 +111,7 @@ const Login = () => {
                                onChange={onChangeFormValue} value={formValue.password} style={{marginTop: '10px'}}/>
                     <Button variant="contained" style={{marginTop: '10px'}} type={"submit"} onClick={handleSubmitLogin}>Submit</Button>
                     <Button variant="contained" type={"button"} onClick={handleLogout} style={{marginTop: '10px'}}>Logout</Button>
+                    <Button variant="contained" type={"button"} onClick={requestSignWithGoogle} style={{marginTop: '10px'}}>Login with Google</Button>
                 </Card>
                 <Notification/>
 

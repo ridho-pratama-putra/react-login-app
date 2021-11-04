@@ -34,7 +34,7 @@ export const doLogout= (token) => {
         const progressAction = { type: 'IN_PROGRESS' };
         dispatch(progressAction);
         try {
-            await api.doLogout({ headers: {Authorization: `Bearer ${JSON.parse(token.accessToken)}` }}).then(({data}) => {
+            await api.doLogout({ headers: {Authorization: `Bearer ${token}` }}).then(({data}) => {
                 if (data.status.code === '00') {
                     const loggedInAction = { type: 'LOGGED_OUT', data };
                     dispatch(loggedInAction);
@@ -44,11 +44,13 @@ export const doLogout= (token) => {
             })
         } catch (e) {
             setTimeout(() => {
+                console.log(e)
                 const progressAction = { type: 'IN_PROGRESS_DONE' };
                 dispatch(progressAction);
-                const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: 'Backend Down', notificationType: 'error' };
+                const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: e.toString(), notificationType: 'error' };
                 dispatch(notificationAction);
             }, 1000);
         }
     }
 }
+
