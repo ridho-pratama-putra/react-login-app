@@ -22,7 +22,7 @@ export const submitLogin = (formData) => {
             setTimeout(() => {
                 const progressAction = { type: 'IN_PROGRESS_DONE' };
                 dispatch(progressAction);
-                const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: 'Backend Down', notificationType: 'error' };
+                const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: e.toString(), notificationType: 'error' };
                 dispatch(notificationAction);
             }, 1000);
         }

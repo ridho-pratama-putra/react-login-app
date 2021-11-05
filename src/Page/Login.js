@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {submitLogin, doLogout} from "../Action/Login";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import Progress from "../UniversalComponents/Progress";
 import Notification from "../UniversalComponents/Notification";
 import Link from "@mui/material/Link";
@@ -30,7 +30,7 @@ const Login = () => {
             padding: '30px 30px 30px 30px',
             justifyContent: 'space-around'
         },
-        inputType : {
+        inputType: {
             marginTop: '10px'
         }
     });
@@ -39,9 +39,13 @@ const Login = () => {
 
     const dispatch = useDispatch();
     const initialState = {
-        email: null,
-        password: null,
+        email: undefined,
+        password: undefined,
     };
+    const { isAuthenticated } = useSelector(state => {
+        return state.Login;
+    });
+
 
     const [formValue, setFormValue] = useState(initialState);
 
@@ -61,12 +65,11 @@ const Login = () => {
     const handleLogout = (event) => {
         event.preventDefault();
         let refreshToken = localStorage.getItem('refreshToken');
-        console.log('refreshToken :: ', refreshToken)
         const doLogin = doLogout(refreshToken);
         dispatch(doLogin)
     };
 
-    const setToken = function(e) {
+    const setToken = function (e) {
         if (
             e.origin === origin &&
             e.data &&
@@ -90,28 +93,33 @@ const Login = () => {
 
     window.addEventListener('message', setToken, false);
 
-    const requestSignWithGoogle = () =>{
+    const requestSignWithGoogle = () => {
         const googleLoginUrl = 'http://localhost:4000/auth/google';
         const newWindow = window.open(googleLoginUrl, "_self", "width=500,height=500")
     };
 
 
-
     return (
         <div>
             <Progress/>
-            <Box  display='flex' justifyContent="space-around" className={classes.root}>
-                <Card className={classes.card} variant="outlined" >
+            <Box display='flex' justifyContent="space-around" className={classes.root}>
+                <Card className={classes.card} variant="outlined">
                     <div style={{marginTop: '20px'}}>
-                        Login, or you can <Link href='/register'>Register</Link> so you can track your request and get early offer from us
+                        Login, or you can <Link href='/register'>Register</Link> so you can track your request and get
+                        early offer from us
                     </div>
                     <TextField label="Email" name={"email"} variant="outlined" onChange={onChangeFormValue}
                                value={formValue.email} style={{marginTop: '30px'}}/>
                     <TextField label="Password" name={"password"} type="password" variant="outlined"
                                onChange={onChangeFormValue} value={formValue.password} style={{marginTop: '10px'}}/>
-                    <Button variant="contained" style={{marginTop: '10px'}} type={"submit"} onClick={handleSubmitLogin}>Submit</Button>
-                    <Button variant="contained" type={"button"} onClick={handleLogout} style={{marginTop: '10px'}}>Logout</Button>
-                    <Button variant="contained" type={"button"} onClick={requestSignWithGoogle} style={{marginTop: '10px'}}>Login with Google</Button>
+                    <Button variant="contained" style={{marginTop: '10px'}}
+                            disabled={isAuthenticated}
+                            type={"submit"}
+                            onClick={handleSubmitLogin}>Submit</Button>
+                    <Button variant="contained" type={"button"} disabled={!isAuthenticated}
+                            onClick={handleLogout} style={{marginTop: '10px'}}>Logout</Button>
+                    <Button variant="contained" type={"button"} disabled={isAuthenticated}
+                            onClick={requestSignWithGoogle} style={{marginTop: '10px'}}>Login with Google</Button>
                 </Card>
                 <Notification/>
 

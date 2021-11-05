@@ -1,18 +1,19 @@
- const LoginReducer = (state = [], action) => {
+ const LoginReducer = (state = {}, action) => {
+    console.log('reducer jalan ', localStorage.getItem('refreshToken'))
     switch (action.type) {
         case 'LOGGED_IN' :
             localStorage.setItem('accessToken', action.data.result[0].accessToken);
             localStorage.setItem('refreshToken', action.data.result[0].refreshToken);
-            return { isAuthenticated: true, token: action.data.result[0].accessToken, refreshToken: action.data.result[0].refreshToken};
+            return { ...state, isAuthenticated: true, token: action.data.result[0].accessToken, refreshToken: action.data.result[0].refreshToken};
         case 'LOGGED_OUT' :
             localStorage.clear();
-            return { isAuthenticated: false, token: null, refreshToken: null };
+            return { ...state, isAuthenticated: false, token: null, refreshToken: null };
         case 'LOGIN_FAILED' :
-            console.log('action failed login: ', action);
-            return { isAuthenticated: false, token: null, refreshToken: null };
+            return { ...state, isAuthenticated: false, token: null, refreshToken: null };
         case 'LOGOUT_FAILED' :
-            console.log('action failed logout: ', action);
-            return { };
+            return { ...state };
+        case 'FORCED_LOGGED_IN':
+            return {...state, isAuthenticated:true, token: action.token, refreshToken: action.refreshToken}
         default:
             return state;
     }
