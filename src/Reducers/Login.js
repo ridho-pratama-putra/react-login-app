@@ -1,5 +1,4 @@
  const LoginReducer = (state = {}, action) => {
-    console.log('reducer jalan ', localStorage.getItem('refreshToken'))
     switch (action.type) {
         case 'LOGGED_IN' :
             localStorage.setItem('accessToken', action.data.result[0].accessToken);
