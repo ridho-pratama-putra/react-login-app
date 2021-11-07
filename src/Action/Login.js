@@ -1,4 +1,4 @@
-import * as api from '../Page/Api';
+import * as api from '../Api/Login';
 import {catchNetworkResponse} from '../utils';
 
 export const submitLogin = (formData) => {
@@ -10,17 +10,6 @@ export const submitLogin = (formData) => {
                 if (data.status.code === '00') {
                     const loggedInAction = {type: 'LOGGED_IN', data};
                     dispatch(loggedInAction);
-                } else {
-                    setTimeout(() => {
-                        const progressAction = {type: 'IN_PROGRESS_DONE'};
-                        dispatch(progressAction);
-                        const notificationAction = {
-                            type: 'NOTIFICATION_TIMEOUT',
-                            message: data.status.description,
-                            notificationType: 'error'
-                        };
-                        dispatch(notificationAction);
-                    }, 1000);
                 }
             })
         } catch (e) {
@@ -38,8 +27,6 @@ export const doLogout = (token) => {
                 if (data.status.code === '00') {
                     const loggedInAction = {type: 'LOGGED_OUT', data};
                     dispatch(loggedInAction);
-                } else {
-                    dispatch({type: 'LOGOUT_FAILED', data});
                 }
             })
         } catch (e) {
@@ -62,17 +49,6 @@ export const submitRegister = (formData, history) => {
                     };
                     dispatch(registerSuccess);
                     history.push('/login')
-                } else {
-                    setTimeout(() => {
-                        const progressAction = {type: 'IN_PROGRESS_DONE'};
-                        dispatch(progressAction);
-                        const notificationAction = {
-                            type: 'NOTIFICATION_TIMEOUT',
-                            message: data.status.description,
-                            notificationType: 'error'
-                        };
-                        dispatch(notificationAction);
-                    }, 1000);
                 }
             })
         } catch (e) {
@@ -80,4 +56,3 @@ export const submitRegister = (formData, history) => {
         }
     }
 }
-

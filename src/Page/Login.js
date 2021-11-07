@@ -9,6 +9,8 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import {makeStyles} from '@mui/styles';
+import * as api from "../Api/Login";
+import {capitalFirstLetter} from "../utils";
 
 const Login = () => {
     const useStyles = makeStyles({
@@ -42,10 +44,9 @@ const Login = () => {
         email: undefined,
         password: undefined,
     };
-    const { isAuthenticated } = useSelector(state => {
+    const {isAuthenticated} = useSelector(state => {
         return state.Login;
     });
-
 
     const [formValue, setFormValue] = useState(initialState);
 
@@ -56,10 +57,19 @@ const Login = () => {
         });
     };
 
-    const handleSubmitLogin = (event) => {
+    const handleSubmitLogin = async (event) => {
         event.preventDefault()
-        const doLogin = submitLogin(formValue)
-        dispatch(doLogin)
+        const result = await api.fethInternalAccount({email: formValue.email}).catch(({response}) => response);
+        if (!result) {
+            dispatch({type: 'NOTIFICATION_TIMEOUT'})
+            return
+        }
+        const {data} = result
+        if (data.status.code === '00') {
+            dispatch(submitLogin(formValue))
+        } else {
+            dispatch({type: 'NOTIFICATION_FAILED', message: capitalFirstLetter(data.status.description), notificationType: 'error'})
+        }
     };
 
     const handleLogout = (event) => {
