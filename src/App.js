@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Link, Route, Switch} from "react-router-dom";
 import Login from "./Page/Login";
 import Register from "./Page/Register";
@@ -19,7 +19,10 @@ import HomeIcon from '@mui/icons-material/Home';
 import MailIcon from '@mui/icons-material/Mail';
 import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 import Drawer from "@mui/material/Drawer";
-import { makeStyles } from '@mui/styles'
+import {makeStyles} from '@mui/styles'
+import ProtectedRoute from "./UniversalComponents/ProtectedRoute";
+import Contents from "./Page/Contents";
+import {useSelector, useDispatch} from "react-redux";
 
 function App() {
     const useStyles = makeStyles({
@@ -40,6 +43,7 @@ function App() {
             border: 0
         },
     });
+    const dispatch = useDispatch();
     const classes = useStyles();
     const [state, setState] = React.useState({
         top: false,
@@ -58,35 +62,55 @@ function App() {
             return;
         }
 
-        setState({ ...state, [anchor]: open });
+        setState({...state, [anchor]: open});
     };
+
+    const {isAuthenticated} = useSelector(state => {
+        return state.Login;
+    });
+
+    useEffect(() => {
+        if (localStorage.getItem('refreshToken')) {
+            const loggedIn = {
+                token: localStorage.getItem('accessToken'),
+                refreshToken: localStorage.getItem('refreshToken')
+            };
+            dispatch({type: 'FORCED_LOGGED_IN', data: loggedIn})
+        }
+    });
 
     const list = (anchor) => (
         <Box
-            sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
+            sx={{width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250}}
             role="presentation"
             onClick={toggleDrawer(anchor, false)}
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                <ListItem button key={'Home'} component={Link} to='/' >
+                <ListItem button key={'Home'} component={Link} to='/'>
                     <ListItemIcon>
                         <HomeIcon/>
                     </ListItemIcon>
-                    <ListItemText primary={'Home'} />
+                    <ListItemText primary={'Home'}/>
                 </ListItem>
                 <ListItem button key={'Login'} component={Link} to='login'>
                     <ListItemIcon>
                         <MailIcon/>
                     </ListItemIcon>
-                    <ListItemText primary={'Login'} />
+                    <ListItemText primary={'Login'}/>
                 </ListItem>
                 <ListItem button key={'Register'} component={Link} to='register'>
                     <ListItemIcon>
                         <AppRegistrationIcon/>
                     </ListItemIcon>
-                    <ListItemText primary={'Register'} />
+                    <ListItemText primary={'Register'}/>
                 </ListItem>
+                {isAuthenticated && <ListItem button key={'Contents'} component={Link} to='contents'>
+                    <ListItemIcon>
+                        <AppRegistrationIcon/>
+                    </ListItemIcon>
+                    <ListItemText primary={'Contents'}/>
+                </ListItem>}
             </List>
         </Box>
     );
@@ -96,9 +120,9 @@ function App() {
             <AppBar position="static" className={classes.customAppBar}>
                 <Toolbar>
                     <IconButton edge="start" color="inherit" aria-label="menu" onClick={toggleDrawer(anchor, true)}>
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
-                    <Typography variant="h6" >
+                    <Typography variant="h6">
                         DOmundo
                     </Typography>
                 </Toolbar>
@@ -110,6 +134,7 @@ function App() {
                 <Route path='/' exact component={Home}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
+                <ProtectedRoute exact path={"/contents"} component={Contents}/>
             </Switch>
 
         </BrowserRouter>
