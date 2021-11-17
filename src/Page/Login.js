@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {submitLogin, doLogout} from "../Action/Login";
+import {submitLogin, doLogout} from "../Action/User";
 import {useDispatch, useSelector} from "react-redux";
 import Progress from "../UniversalComponents/Progress";
 import Notification from "../UniversalComponents/Notification";
