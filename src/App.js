@@ -69,15 +69,15 @@ function App() {
         return state.Login;
     });
 
-    useEffect(() => {
-        if (localStorage.getItem('refreshToken')) {
-            const loggedIn = {
-                token: localStorage.getItem('accessToken'),
-                refreshToken: localStorage.getItem('refreshToken')
-            };
-            dispatch({type: 'FORCED_LOGGED_IN', data: loggedIn})
-        }
-    });
+    // useEffect(() => {
+    //     if (localStorage.getItem('refreshToken')) {
+    //         const loggedIn = {
+    //             token: localStorage.getItem('accessToken'),
+    //             refreshToken: localStorage.getItem('refreshToken')
+    //         };
+    //         dispatch({type: 'FORCED_LOGGED_IN', data: loggedIn})
+    //     }
+    // });
 
     const list = (anchor) => (
         <Box

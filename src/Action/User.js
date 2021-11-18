@@ -1,4 +1,4 @@
-import * as api from '../Api/Login';
+import * as api from '../Api/User';
 import {catchNetworkResponse} from '../utils';
 
 export const submitLogin = (formData) => {
@@ -50,6 +50,20 @@ export const submitRegister = (formData, history) => {
                     dispatch(registerSuccess);
                     history.push('/login')
                 }
+            })
+        } catch (e) {
+            catchNetworkResponse(e, dispatch)
+        }
+    }
+}
+
+export const getContent = () => {
+    return async (dispatch) => {
+        // const progressAction = {type: 'IN_PROGRESS'};
+        // dispatch(progressAction);
+        try {
+            await api.getContent().then(res => {
+            console.log('res from get ::', res)
             })
         } catch (e) {
             catchNetworkResponse(e, dispatch)

@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {submitLogin, doLogout} from "../Action/User";
+import {submitLogin, doLogout, getContent} from "../Action/User";
 import {useDispatch, useSelector} from "react-redux";
 import Progress from "../UniversalComponents/Progress";
 import Notification from "../UniversalComponents/Notification";
@@ -9,7 +9,7 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import {makeStyles} from '@mui/styles';
-import * as api from "../Api/Login";
+import * as api from "../Api/User";
 import {capitalFirstLetter} from "../utils";
 
 const Login = () => {
@@ -79,6 +79,11 @@ const Login = () => {
         dispatch(doLogin)
     };
 
+    const doGetContent = (event) => {
+        event.preventDefault();
+        dispatch(getContent())
+    };
+
     const setToken = function (e) {
         if (
             e.origin === origin &&
@@ -130,6 +135,8 @@ const Login = () => {
                             onClick={handleLogout} style={{marginTop: '10px'}}>Logout</Button>
                     <Button variant="contained" type={"button"} disabled={isAuthenticated}
                             onClick={requestSignWithGoogle} style={{marginTop: '10px'}}>Login with Google</Button>
+                    <Button variant="contained" type={"button"}
+                            onClick={doGetContent} style={{marginTop: '10px'}}>try it</Button>
                 </Card>
                 <Notification/>
 
