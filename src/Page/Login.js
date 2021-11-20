@@ -59,6 +59,9 @@ const Login = () => {
 
     const handleSubmitLogin = async (event) => {
         event.preventDefault()
+        const progressAction = {type: 'IN_PROGRESS'}
+        dispatch(progressAction)
+
         const result = await api.fethInternalAccount({email: formValue.email}).catch(({response}) => response);
         if (!result) {
             dispatch({type: 'NOTIFICATION_TIMEOUT'})

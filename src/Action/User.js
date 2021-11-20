@@ -3,8 +3,6 @@ import {catchNetworkResponse} from '../utils';
 
 export const submitLogin = (formData) => {
     return async (dispatch) => {
-        const progressAction = {type: 'IN_PROGRESS'};
-        dispatch(progressAction);
         try {
             await api.submitLogin(formData).then(({data}) => {
                 if (data.status.code === '00') {
@@ -25,7 +23,7 @@ export const doLogout = (token) => {
         try {
             await api.doLogout({headers: {Authorization: `Bearer ${token}`}}).then(({data}) => {
                 if (data.status.code === '00') {
-                    const loggedInAction = {type: 'LOGGED_OUT', data};
+                    const loggedInAction = {type: 'LOGGED_OUT'};
                     dispatch(loggedInAction);
                 }
             })
@@ -59,14 +57,18 @@ export const submitRegister = (formData, history) => {
 
 export const getContent = () => {
     return async (dispatch) => {
-        // const progressAction = {type: 'IN_PROGRESS'};
-        // dispatch(progressAction);
+        const progressAction = {type: 'IN_PROGRESS'};
+        dispatch(progressAction);
         try {
             await api.getContent().then(res => {
-            console.log('res from get ::', res)
+                dispatch({type: 'NOTIFICATION_SUCCESS', message:res.data.status.description})
             })
         } catch (e) {
+            if (e.status && e.status.description.includes('relogin')) {
+                dispatch({type: 'LOGGED_OUT'})
+            }
             catchNetworkResponse(e, dispatch)
         }
+        // console.log('kena catsh ih : ', e)
     }
 }
