@@ -20,16 +20,8 @@ export const doLogout = (token) => {
     return async (dispatch) => {
         const progressAction = {type: 'IN_PROGRESS'};
         dispatch(progressAction);
-        try {
-            await api.doLogout({headers: {Authorization: `Bearer ${token}`}}).then(({data}) => {
-                if (data.status.code === '00') {
-                    const loggedInAction = {type: 'LOGGED_OUT'};
-                    dispatch(loggedInAction);
-                }
-            })
-        } catch (e) {
-            catchNetworkResponse(e, dispatch)
-        }
+        const loggedInAction = {type: 'LOGGED_OUT'};
+        dispatch(loggedInAction);
     }
 }
 

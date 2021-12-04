@@ -1,6 +1,6 @@
 export const capitalFirstLetter = (word) => {
     return word.charAt(0).toUpperCase() + word.slice(1);
-}
+};
 
 export const catchNetworkResponse = (e, dispatch) => {
     const {response} = e;
@@ -10,7 +10,6 @@ export const catchNetworkResponse = (e, dispatch) => {
             dispatch(progressAction);
             const notificationAction = {
                 type: 'NOTIFICATION_TIMEOUT',
-                message: capitalFirstLetter(response.data.status.description),
                 notificationType: 'error'
             };
             dispatch(notificationAction);
@@ -19,8 +18,8 @@ export const catchNetworkResponse = (e, dispatch) => {
         setTimeout(() => {
             const progressAction = { type: 'IN_PROGRESS_DONE' };
             dispatch(progressAction);
-            const notificationAction = { type: 'NOTIFICATION_TIMEOUT', message: e.toString(), notificationType: 'error' };
+            const notificationAction = { type: 'NOTIFICATION_TIMEOUT', notificationType: 'error' };
             dispatch(notificationAction);
         }, 1000);
     }
-}
+};

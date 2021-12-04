@@ -7,7 +7,7 @@ const NotificationReducers = (state = [], action) => {
   case 'CLOSE_NOTIFICATION' :
     return { isOpen: false };
   case 'NOTIFICATION_TIMEOUT' :
-    return { isOpen: true, message: 'Backend down', type: 'error' };
+    return { isOpen: true, message: 'System failure', type: 'error' };
   default:
     return state;
   }

@@ -1,10 +1,10 @@
 import axios from 'axios';
 import instance from './Interceptor'
-const LOGIN_URL = 'http://localhost:4000/login';
-const REGISTER_URL = 'http://localhost:4000/register';
-const LOGOUT_URL = 'http://localhost:4000/logout';
-const FETCH_INTERNAL_ACCOUNT = 'http://localhost:4000/internal-account';
-const CONTENT_URL = 'http://localhost:4000/';
+const LOGIN_URL = 'http://localhost/auth';
+const REGISTER_URL = 'http://localhost/register';
+const LOGOUT_URL = 'http://localhost/logout';
+const FETCH_INTERNAL_ACCOUNT = 'http://localhost/internal-account';
+const CONTENT_URL = 'http://localhost/';
 
 export const getContent = () => instance.get(CONTENT_URL, {timeout: 5000});
 export const submitLogin = (formValue) => axios.post(LOGIN_URL, formValue, {timeout: 5000});
