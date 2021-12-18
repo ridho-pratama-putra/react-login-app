@@ -112,7 +112,7 @@ const Login = () => {
     window.addEventListener('message', setToken, false);
 
     const requestSignWithGoogle = () => {
-        const googleLoginUrl = 'http://localhost:4000/auth/google';
+        const googleLoginUrl = 'http://localhost/auth/google';
         const newWindow = window.open(googleLoginUrl, "_self", "width=500,height=500")
     };
 
